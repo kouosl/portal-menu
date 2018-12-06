@@ -14,6 +14,7 @@ class Module extends \kouosl\base\Module
     {
         parent::init();
     }
+    
     public function registerTranslations()
     {
         Yii::$app->i18n->translations['menu/*'] = [
