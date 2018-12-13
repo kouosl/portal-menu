@@ -13,9 +13,6 @@ class m181212_145517_menu extends Migration
             'position' => $this->string(20)->notNull(),
         ],'ENGINE=InnoDB DEFAULT CHARSET=utf8mb4');
 
-          
-
-
          $this->createTable('menu_items', [
             'id' => $this->primaryKey(),
             'label' => $this->string(20)->notNull(),
@@ -24,9 +21,7 @@ class m181212_145517_menu extends Migration
             'type' => $this->string(20)->notNull(),
             'parent' => $this->string(20)->notNull(),
             'menu_id' => $this->integer()->notNull(),
-        ],'ENGINE=InnoDB DEFAULT CHARSET=utf8mb4');
-
-         
+        ],'ENGINE=InnoDB DEFAULT CHARSET=utf8mb4');   
     }
 
     public function down()
@@ -34,6 +29,4 @@ class m181212_145517_menu extends Migration
         $this->dropTable('menu');
         $this->dropTable('menu_items');
     }
-
-  
 }
