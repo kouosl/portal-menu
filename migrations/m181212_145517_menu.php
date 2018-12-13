@@ -31,8 +31,6 @@ class m181212_145517_menu extends Migration
 
     public function down()
     {
-       
-
         $this->dropTable('menu');
         $this->dropTable('menu_items');
     }
