@@ -2,15 +2,10 @@
 
 use yii\db\Migration;
 
-/**
- * Class m181212_145517_menu
- */
 class m181212_145517_menu extends Migration
 {
-    /**
-     * {@inheritdoc}
-     */
-       public function safeUp()
+   
+       public function up()
     {
             $this->createTable('menu', [
             'id' => $this->primaryKey(),
@@ -34,10 +29,7 @@ class m181212_145517_menu extends Migration
          
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function safeDown()
+    public function down()
     {
        
 
@@ -45,18 +37,5 @@ class m181212_145517_menu extends Migration
         $this->dropTable('menu_items');
     }
 
-    /*
-    // Use up()/down() to run migration code without a transaction.
-    public function up()
-    {
-
-    }
-
-    public function down()
-    {
-        echo "m181212_145517_menu cannot be reverted.\n";
-
-        return false;
-    }
-    */
+  
 }
