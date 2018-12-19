@@ -44,4 +44,8 @@ class Menu extends \yii\db\ActiveRecord
             'position' => 'Position',
         ];
     }
+
+    public function getItems(){
+        return $this->hasMany(MenuItems::className(), ['menu_id' => 'id']);
+    }
 }

@@ -8,6 +8,8 @@ use kouosl\menu\models\MenuSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
+use common\config\db;
 
 /**
  * MenuController implements the CRUD actions for Menu model.
@@ -31,6 +33,14 @@ class MenuController extends DefaultController
         return $behaviors;
     }
 
+   /* function menubuild(){
+        $menuayarsor=mysql_query("select * from menu");
+        while($menuayarcek=mysql_fetch_assoc($menuayarsor)){}
+
+       $menuItems=[];
+       $menuItems = [['label' =>'Sayfa 1', 'url' => '#url'],['label' =>'Sayfa 2', 'url' => '#url2']];
+        return $menuItems;   
+    }*/
     /**
      * Lists all Menu models.
      * @return mixed
@@ -45,6 +55,90 @@ class MenuController extends DefaultController
             'dataProvider' => $dataProvider,
         ]);
     }
+
+
+
+
+
+
+//Menu build fonksiyonunun yazılması
+    public function menubuild($name){
+        $model = Menu::find()->where(['name'=>$name])->one();
+
+     
+        $menuItems=[];
+        $parents=array();
+        $items=ArrayHelper::toArray($model->items);
+
+        if (count($items)>0) {
+
+            $say = 0;
+            foreach ($items as $value) {
+
+                if ($value['parent']!="") {
+                        $parents[$value['parent']][$say] = [
+                            'label' => $value['label'],
+                            'id'    =>  $value['id'],
+                            'url'   => $value['target'],
+                            'items' => []];
+                            $say++;
+                }   
+
+            }
+
+            foreach ($items as $value) {
+                $sayac=0;
+
+                if (empty($value['parent']) && array_key_exists($value['label'], $parents)) {
+
+                    array_push($menuItems,['label' => $value['label']  ,'id' => $value['id'],'url'
+                    => $value['target'],'items'=> $parents[$value['label']]]);
+                }   
+
+                if (empty($value['parent']) && !array_key_exists($value['label'], $parents)) {
+                 
+                    array_push($menuItems,['label' => $value['label']  ,'id' => $value['id'],'url'
+                    => $value['target']]);
+
+                } 
+            }
+     
+        }
+     
+      return $menuItems; 
+
+    }
+
+
+ /* if ($value['parent']=="") {
+                foreach ($items as $value2) {
+                    if($value2['parent']!=$value['label']){
+                        array_push($menuItems,['label' => $value['label']  ,'id' => $value['id'],'url'
+                        => $value['target']]);
+                        break;
+                    }
+                }
+            }*/
+                    
+                  /*  if($value3['label']==$value['parent']){
+                        array_push($menuItems,['label' => $value['label']  ,'id' => $value['id'],'url'
+                        => $value['target']);
+                        break;
+                    }    */    
+
+
+ /*if($items['parent']!='0'){
+            array_push($menuItems,['label' => $value['label']  ,'id' => $value['id'],'url' => $value['target'],'items'=> $items]);
+         }*/
+
+
+    //Alt Menu Oluşturma
+    //array_push($menuItems,['label' => $value['label']  ,'id' => $value['id'],'url' => $value['target'],'items'=> $items]);
+
+ //$menuItems = [['label' => $menuayarcek['name'];, 'url' => '#url'],['label' => 'Sayfa 2', 'url' => '#url'],['label' => 'Sayfa 3', 'url' => '#url']];
+
+
+
 
     /**
      * Displays a single Menu model.
